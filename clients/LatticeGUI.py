@@ -20,13 +20,13 @@ class LATTICE_GUI(QtGui.QMainWindow):
     
     def create_layout(self, cxn):
         
-        show_separate_script_scanner_window = False
+        # show_separate_script_scanner_window = False
         
-        #from common.clients.script_scanner_gui.script_scanner_gui import script_scanner_gui
-        from common.devel.bum.gui_scriptscanner2.script_scanner_gui import script_scanner_gui
-        script_scanner = script_scanner_gui(reactor, cxn)
-        if show_separate_script_scanner_window:        
-            script_scanner.show()               
+        # #from common.clients.script_scanner_gui.script_scanner_gui import script_scanner_gui
+        # from common.devel.bum.gui_scriptscanner2.script_scanner_gui import script_scanner_gui
+        # script_scanner = script_scanner_gui(reactor, cxn)
+        # if show_separate_script_scanner_window:        
+        #     script_scanner.show()               
             
         contrl_widget = self.makeControlWidget(reactor, cxn)
         histogram = self.make_histogram_widget(reactor, cxn)
@@ -45,8 +45,8 @@ class LATTICE_GUI(QtGui.QMainWindow):
         self.tabWidget = QtGui.QTabWidget()
         self.tabWidget.addTab(contrl_widget,'&Control')
         
-        if not show_separate_script_scanner_window:
-            self.tabWidget.addTab(script_scanner,'&Script Scanner')
+        # if not show_separate_script_scanner_window:
+        #     self.tabWidget.addTab(script_scanner,'&Script Scanner')
         
         self.tabWidget.addTab(single_pass,'Single &Pass')
         self.tabWidget.addTab(histogram, '&Readout Histogram')
@@ -107,7 +107,7 @@ class LATTICE_GUI(QtGui.QMainWindow):
     def makeControlWidget(self, reactor, cxn):
         widget = QtGui.QWidget()
         #from electrode_client.electrode import electrode_widget
-        from lattice.clients.DAC_CONTROL import DAC_Control
+        # from staq.clients.DAC_CONTROL import DAC_Control
         from common.clients.LASERDAC_CONTROL import DAC_Control as laserdac_control_widget
         from common.clients.multiplexer.MULTIPLEXER_CONTROL import multiplexerWidget
         from common.clients.PMT_CONTROL import pmtWidget
@@ -147,7 +147,8 @@ if __name__=="__main__":
     a = QtGui.QApplication( [] )
     clipboard = a.clipboard()
     clipboard.Mode(0)
-    import common.clients.qt4reactor as qt4reactor
+    # import common.clients.qt4reactor as qt4reactor
+    import qt4reactor
     qt4reactor.install()
     from twisted.internet import reactor
     latticeGUI = LATTICE_GUI(reactor, clipboard)

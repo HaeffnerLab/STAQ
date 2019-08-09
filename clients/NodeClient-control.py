@@ -3,31 +3,33 @@ import numpy as np
 import time
 
 nodeDict = {
-			'node_lattice_control':[
+			'node_staq':[
 								'Serial Server',
 								'Data Vault',
-								#'DAC',
-								'DAC Server',
+								# #'DAC',
+								# 'DAC Server',
 								'Pulser',
-								#'Real Simple Grapher',
+								# #'Real Simple Grapher',
 								'NormalPMTFlow',
-								'ADCserver',
-								'SD Tracker',
+								# 'ADCserver',
+								# 'SD Tracker',
 								'GPIB Device Manager', 
 								'ScriptScanner',
 								'ParameterVault',
-								'SHQ_222M_SERVER',
-								'Electrode Diagonalization',
-								'Crystallizer',
-								'Agilent 6030A Server',
-								'Agilent E3633A',
-								'Rigol DG4062 Server',
-								'Fitter',
-								'DDS_CW',
-								'Picomotor'
+								# # 'SHQ_222M_SERVER',
+								# # 'Electrode Diagonalization',
+								# # 'Crystallizer',
+								# # 'Agilent 6030A Server',
+								# # 'Agilent E3633A',
+								# # 'Rigol DG4062 Server',
+								# # 'Fitter',
+								# # 'DDS_CW',
+								# # 'Picomotor'
 								],
 			}
 #connect to LabRAD
+
+
 errors = False
 try:
 	cxn = labrad.connect()
@@ -44,7 +46,8 @@ else:
 			print '\nWorking on {} \n '.format(node)
 			cxn.servers[node].refresh_servers()
 			#if node server is up, start all possible servers on it that are not already running
-			running_servers = np.array(cxn.servers[node].running_servers().asarray)
+			# running_servers = np.array(cxn.servers[node].running_servers().asarray)
+			running_servers = [server[0] for server in cxn.servers[node].running_servers()]
 			for server in nodeDict[node]:
 				if server in running_servers: 
 					print server + ' is already running'

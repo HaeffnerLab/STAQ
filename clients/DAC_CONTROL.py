@@ -31,8 +31,16 @@ class CHANNEL_CONTROL (QtGui.QWidget):
 
         elecList = hc.elec_dict.keys()
         elecList.sort()
-        for i,e in enumerate(elecList):
-            elecLayout.addWidget(self.controls[e])
+        #for i,e in enumerate(elecList):
+        #    elecLayout.addWidget(self.controls[e])
+
+        elecListHALF=range(0,len(elecList),2)
+
+        for i in elecListHALF:
+            layout.addWidget(self.controls[elecList[i]],i+1,2,1,1)
+            layout.addWidget(self.controls[elecList[i+1]],i+1,3,1,1)
+        layout.addWidget(self.controls['Q39'],11,1,1,1)
+        layout.addWidget(self.controls['Q40'],11,4,1,1)
 
         self.inputUpdated = False                
         self.timer = QtCore.QTimer(self)        
