@@ -38,9 +38,9 @@ class SidebandCooling(pulse_sequence):
 #         print "freq 729:  ", freq_729        
      
         self.addDDS(channel_729, self.start, duration, freq_729 , sc.sideband_cooling_amplitude_729)
-        self.addDDS('854',       self.start, repump_dur_854, sc.sideband_cooling_frequency_854 , sc.sideband_cooling_amplitude_854)
-        #self.addDDS('866',       self.start, repump_dur_866, sc.sideband_cooling_frequency_866 , sc.sideband_cooling_amplitude_866)
+        self.addDDS('854dp',       self.start, repump_dur_854, sc.sideband_cooling_frequency_854 , sc.sideband_cooling_amplitude_854)
+        self.addDDS('866dp',       self.start, repump_dur_866, sc.sideband_cooling_frequency_866 , sc.sideband_cooling_amplitude_866)
         # changing the 866 from a dds to a rf source enabled by a switch
-        self.addTTL('866DP', self.start + WithUnit(0.25, 'us'), repump_dur_866 - WithUnit(0.1, 'us') )
+        # self.addTTL('866DP', self.start + WithUnit(0.25, 'us'), repump_dur_866 - WithUnit(0.1, 'us') )
         self.end = self.start + repump_dur_866
         

@@ -11,9 +11,9 @@ class DopplerCooling(pulse_sequence):
         
         
         repump_duration = p.doppler_cooling_duration + p.doppler_cooling_repump_additional
-        self.addDDS ('397',self.start, p.doppler_cooling_duration, p.doppler_cooling_frequency_397, p.doppler_cooling_amplitude_397)
-        #self.addDDS ('866',self.start, repump_duration, p.doppler_cooling_frequency_866, p.doppler_cooling_amplitude_866)
+        self.addDDS ('397dp',self.start, p.doppler_cooling_duration, p.doppler_cooling_frequency_397, p.doppler_cooling_amplitude_397)
+        self.addDDS ('866dp',self.start, repump_duration, p.doppler_cooling_frequency_866, p.doppler_cooling_amplitude_866)
         # changing the 866 from a dds to a rf source enabled by a switch
-        self.addTTL('866DP', self.start + WithUnit(0.2, 'us'), repump_duration- WithUnit(0.1, 'us') )
+        #self.addTTL('866DP', self.start + WithUnit(0.2, 'us'), repump_duration- WithUnit(0.1, 'us') )
         self.end = self.start + repump_duration
         

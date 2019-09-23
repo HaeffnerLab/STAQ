@@ -29,7 +29,7 @@ class StatePreparation(pulse_sequence):
         self.end = U(10., 'us')
         self.addSequence(TurnOffAll)
         self.addSequence(RepumpD) # initializing the state of the ion
-        self.addSequence(PreDopplerCooling) 
+        # self.addSequence(PreDopplerCooling) 
         self.addSequence(DopplerCooling) 
         
         if self.parameters.StatePreparation.optical_pumping_enable:
@@ -65,9 +65,7 @@ class StatePreparation(pulse_sequence):
                                                       })
                 self.addSequence(OpticalPumping, {'OpticalPumpingContinuous.optical_pumping_continuous_duration':duration_op })
 
-
-          
-        
+             
 
 
         # side band cooling             
@@ -123,12 +121,12 @@ class StatePreparation(pulse_sequence):
                                               "OpticalPumping.optical_pumping_amplitude_854": op_aux.amp_854 })
                   
         
-        if self.parameters.StatePreparation.aux_optical_pumping_enable and self.parameters.StatePreparation.aux_optical_pumping_pulsed_enable:
-            op_aux = self.parameters.OpticalPumpingAux
-            for _ in range(int(self.parameters.StatePreparation.number_of_cycles)):
-                self.addSequence(OpticalPumpingPulsed, {'StatePreparation.channel_729': op_aux.channel_729,
-                                                        'OpticalPumping.line_selection': op_aux.aux_op_line_selection
-                                                       })
+        # if self.parameters.StatePreparation.aux_optical_pumping_enable and self.parameters.StatePreparation.aux_optical_pumping_pulsed_enable:
+        #     op_aux = self.parameters.OpticalPumpingAux
+        #     for _ in range(int(self.parameters.StatePreparation.number_of_cycles)):
+        #         self.addSequence(OpticalPumpingPulsed, {'StatePreparation.channel_729': op_aux.channel_729,
+        #                                                 'OpticalPumping.line_selection': op_aux.aux_op_line_selection
+        #                                                })
 
         self.addSequence(EmptySequence,  { "EmptySequence.empty_sequence_duration" : self.parameters.Heating.background_heating_time})
         

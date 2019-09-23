@@ -26,10 +26,10 @@ class OpticalPumping(pulse_sequence):
         self.addDDS(channel_729, self.start, opc.optical_pumping_continuous_duration, freq_729, op.optical_pumping_amplitude_729)
         #print 'op:', opc.optical_pumping_continuous_frequency_729
         #print 'op:',  opc.optical_pumping_continuous_duration
-        self.addDDS('854', self.start, repump_dur_854, op.optical_pumping_frequency_854, op.optical_pumping_amplitude_854)
-        #self.addDDS('866', self.start, repump_dur_866, op.optical_pumping_frequency_866, op.optical_pumping_amplitude_866)
+        self.addDDS('854dp', self.start, repump_dur_854, op.optical_pumping_frequency_854, op.optical_pumping_amplitude_854)
+        self.addDDS('866dp', self.start, repump_dur_866, op.optical_pumping_frequency_866, op.optical_pumping_amplitude_866)
         # changing the 866 from a dds to a rf source enabled by a switch
-        self.addTTL('866DP', self.start + WithUnit(0.25, 'us'), repump_dur_866 - WithUnit(0.1, 'us') )
+        # self.addTTL('866DP', self.start + WithUnit(0.25, 'us'), repump_dur_866 - WithUnit(0.1, 'us') )
         #aux = self.parameters.OpticalPumpingAux
         #if aux.aux_op_enable:
             #self.addDDS('729DP_aux', self.start, opc.optical_pumping_continuous_duration, aux.aux_optical_frequency_729, aux.aux_optical_pumping_amplitude_729)
