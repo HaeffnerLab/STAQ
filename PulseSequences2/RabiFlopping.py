@@ -10,18 +10,25 @@ import numpy as np
 
 class RabiFlopping(pulse_sequence):
     scannable_params = {
-        'RabiFlopping.duration':  [(0., 50., 3, 'us'), 'rabi']
-        #'Excitation_729.rabi_excitation_duration' : [(-150, 150, 10, 'kHz'),'spectrum'],
+        'RabiFlopping.duration':  [(0., 50., 3, 'us'), 'rabi'],
+        # 'OpticalPumpingContinuous.optical_pumping_continuous_duration':  [(0., 50., 3, 'ms'), 'rabi'],
+        # 'OpticalPumping.optical_pumping_amplitude_729':  [(-12., -5., 0.5, 'dBm'), 'rabi'],
+        # 'OpticalPumping.optical_pumping_amplitude_854':  [(-12., -5., 0.5, 'dBm'), 'rabi'],
+        'SidebandCooling.stark_shift':  [(-20., 20., 0.5, 'kHz'), 'rabi'],
+        'SidebandCooling.sideband_cooling_amplitude_854':  [(-30., -5., 0.5, 'dBm'), 'rabi'],
+        'SidebandCooling.sideband_cooling_amplitude_729':  [(-30., -5., 0.5, 'dBm'), 'rabi']
+        
+        
               }
 
     show_params= ['Excitation_729.channel_729',
-                  'Excitation_729.bichro',
+                  # 'Excitation_729.bichro',
                   'RabiFlopping.line_selection',
                   'RabiFlopping.rabi_amplitude_729',
                   'RabiFlopping.duration',
-                  'RabiFlopping.rabi_amplitude_729',
+                  # 'RabiFlopping.rabi_amplitude_729',
                   'RabiFlopping.duration',
-                  'RabiFlopping.line_selection',
+                  # 'RabiFlopping.line_selection',
                   'RabiFlopping.selection_sideband',
                   'RabiFlopping.order',
                   'StatePreparation.channel_729',
@@ -70,8 +77,7 @@ class RabiFlopping(pulse_sequence):
         pass
     @classmethod
     def run_finally(cls,cxn, parameters_dict, data, x):
-        print "switching the 866 back to ON"
-        cxn.pulser.switch_manual('866DP', True)
+       pass
 
         #np.save('temp_PMT', data)
         #print "saved ion data"

@@ -130,3 +130,4 @@ class StatePreparation(pulse_sequence):
 
         self.addSequence(EmptySequence,  { "EmptySequence.empty_sequence_duration" : self.parameters.Heating.background_heating_time})
         
+        print "done with state prep"

@@ -9,3 +9,5 @@ Errors.log
 .directory
 /installs
 *~
+*.csv
+*.ini

@@ -10,8 +10,8 @@ class Spectrum(pulse_sequence):
                             #(self, scan_param, minim, maxim, steps, unit)
     scannable_params = {
         #'Spectrum.carrier_detuning':  [(-50, 50, 100, 'kHz'), 'window']
-        'Spectrum.carrier_detuning' : [(-150, 150, 10, 'kHz'),'spectrum'],
-        'Spectrum.sideband_detuning' :[(-50, 50, 100, 'kHz'),'spectrum']
+        'Spectrum.carrier_detuning' : [(-150, 150, 10, 'kHz'),'spectrum',True],
+        'Spectrum.sideband_detuning' :[(-50, 50, 100, 'kHz'),'spectrum',True]
               }
 
     show_params= ['Excitation_729.channel_729',
@@ -27,7 +27,8 @@ class Spectrum(pulse_sequence):
                   'StatePreparation.sideband_cooling_enable'
                   ]
    
-    fixed_params = {'StatePreparation.aux_optical_pumping_enable': False,
+    fixed_params = {
+    # 'StatePreparation.aux_optical_pumping_enable': False,
 #                     'StatePreparation.sideband_cooling_enable': False,
                     # 'StateReadout.readout_mode': 'pmt',
                     }
@@ -55,7 +56,7 @@ class Spectrum(pulse_sequence):
         duration=spc.manual_excitation_time
         print "Spectrum scan 555"
         print "spc.line_selection : " ,spc.line_selection
-        print "spc.selection_sideband : " ,spc.z    
+        print "spc.selection_sideband : " ,spc.selection_sideband   
         print "spc.order : " , int(spc.order)
         
         print "729 freq: {}".format(freq_729.inUnitsOf('MHz'))
@@ -78,18 +79,52 @@ class Spectrum(pulse_sequence):
         
     @classmethod
     def run_initial(cls,cxn, parameters_dict):
-        print "Switching the 866DP to auto mode"
-        cxn.pulser.switch_auto('866DP')
+        e = parameters_dict.Spectrum
+        ###### add shift for spectra purposes
+        carrier_translation = {'S+1/2D-3/2':'c0',
+                            'S-1/2D-5/2':'c1',
+                            'S+1/2D-1/2':'c2',
+                            'S-1/2D-3/2':'c3',
+                            'S+1/2D+1/2':'c4',
+                            'S-1/2D-1/2':'c5',
+                            'S+1/2D+3/2':'c6',
+                            'S-1/2D+1/2':'c7',
+                            'S+1/2D+5/2':'c8',
+                            'S-1/2D+3/2':'c9',
+                               }
+
+        trapfreq = parameters_dict.TrapFrequencies
+        # sideband_frequencies = [trapfreq.radial_frequency_1, trapfreq.radial_frequency_2, trapfreq.axial_frequency, trapfreq.rf_drive_frequency]
+        shift = U(0.,'MHz')
+        # print "this is the sideband: ",trapfreq[e.selection_sideband] 
+        if parameters_dict.Display.relative_frequencies:
+            
+            # shift by sideband only (spectrum "0" will be carrier frequency)
+            shift += e.order *trapfreq[e.selection_sideband] 
+
+        else:
+        #shift by sideband + carrier (spectrum "0" will be AO center frequency)
+            shift += parameters_dict.Carriers[carrier_translation[e.line_selection]]
+            shift += e.order *trapfreq[e.selection_sideband] 
+
+        # for order,sideband_frequency in zip([sb*e.invert_sb for sb in e.sideband_selection], sideband_frequencies):
+        #         shift += order * sideband_frequency
+
+        pv = cxn.parametervault
+        # print '1234 shifting in progress'
+        # print shift
+        pv.set_parameter('Display','shift',shift)
+    
         
     @classmethod
     def run_in_loop(cls,cxn, parameters_dict, data, x):
-        #print "Running in loop Rabi_floping"
         pass
-    
+
+
     @classmethod
     def run_finally(cls,cxn, parameters_dict, data, x):
-        print "switching the 866 back to ON"
-        cxn.pulser.switch_manual('866DP', True)
+        pass
+
         
 if __name__ == '__main__':
     import labrad

@@ -13,6 +13,7 @@ class STAQ_GUI(QtGui.QMainWindow):
 
     @inlineCallbacks
     def connect_labrad(self):
+        from labrad.units import WithUnit
         from common.clients.connection import connection
         cxn = connection()
         yield cxn.connect()
@@ -31,26 +32,25 @@ class STAQ_GUI(QtGui.QMainWindow):
         contrl_widget = self.makeControlWidget(reactor, cxn)
         histogram = self.make_histogram_widget(reactor, cxn)
         drift_tracker = self.make_drift_tracker_widget(reactor, cxn)
+        dac_control = self.make_dac_control_widget(reactor,cxn)
         # piezo_motor_control = self.make_piezo_motor_control_widget(reactor, cxn)
         # #automation_widget = self.make_automation_widget(reactor, cxn)
         # config_editor = self.make_config_editor_widget(reactor, cxn)
         centralWidget = QtGui.QWidget()
 
-
         layout = QtGui.QHBoxLayout()
-        
-
         
         self.tabWidget = QtGui.QTabWidget()
         self.tabWidget.addTab(contrl_widget,'&Control')
+        self.tabWidget.addTab(dac_control, '&DAC Control')
         
         if not show_separate_script_scanner_window:
             self.tabWidget.addTab(script_scanner,'&Script Scanner')
         
         
         self.tabWidget.addTab(histogram, '&Readout Histogram')
-        self.tabWidget.addTab(drift_tracker, '&Mrs Drift Tracker')
-        # #self.tabWidget.addTab(dac_control, '&DAC Control')
+        self.tabWidget.addTab(drift_tracker, '&Drift Tracker')
+        
         # self.tabWidget.addTab(piezo_motor_control, 'M&irror Porsche')
         # #self.tabWidget.addTab(drift_tracker, '&Autogadget')
         # self.tabWidget.addTab(config_editor, 'Config &Editor')
@@ -69,14 +69,11 @@ class STAQ_GUI(QtGui.QMainWindow):
         widget = drift_tracker(reactor, cxn = cxn, clipboard = self.clipboard)
         return widget
     
-    
- 
-    # def make_config_editor_widget(self, reactor, cxn):
-    #     config_editor_tab = QtGui.QTabWidget()
-    #     from common.clients.CONFIG_EDITOR import CONFIG_EDITOR
-    #     config_editor = CONFIG_EDITOR(reactor, cxn)
-    #     config_editor_tab.addTab(config_editor,"Config Editor")
-    #     return config_editor_tab
+    def make_dac_control_widget(self,reactor,cxn):
+        from common.clients.NEW_DAC_CONTROL import DAC_Control
+        widget = DAC_Control(reactor)
+        return widget   
+
    
     def make_histogram_widget(self, reactor, cxn):
         histograms_tab = QtGui.QTabWidget()
@@ -97,7 +94,7 @@ class STAQ_GUI(QtGui.QMainWindow):
     def makeControlWidget(self, reactor, cxn):
         widget = QtGui.QWidget()
         #from electrode_client.electrode import electrode_widget
-        from staq.clients.DAC_CONTROL import DAC_Control
+        from staq.clients.NEW_DAC_CONTROL import DAC_Control
         from common.clients.LASERDAC_CONTROL import DAC_Control as laserdac_control_widget
         from common.clients.multiplexer.MULTIPLEXER_CONTROL import multiplexerWidget
         from common.clients.PMT_CONTROL import pmtWidget

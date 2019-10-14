@@ -40,10 +40,10 @@ class StateReadout(pulse_sequence):
         
         self.addTTL('ReadoutCount', self.start, readout_duration)
         
-        self.addDDS ('397',self.start, duration_397, st.state_readout_frequency_397, st.state_readout_amplitude_397)
-        #self.addDDS ('866',self.start, duration_866, st.state_readout_frequency_866, st.state_readout_amplitude_866)
+        self.addDDS ('397dp',self.start, duration_397, st.state_readout_frequency_397, st.state_readout_amplitude_397)
+        self.addDDS ('866dp',self.start, duration_866, st.state_readout_frequency_866, st.state_readout_amplitude_866)
         # changing the 866 from a dds to a rf source enabled by a switch
-        self.addTTL('866DP', self.start+ WithUnit(0.25, 'us'), duration_866 - WithUnit(0.1, 'us') )
+        # self.addTTL('866DP', self.start+ WithUnit(0.25, 'us'), duration_866 - WithUnit(0.1, 'us') )
                     
         self.end = self.start + duration_866
 #         print "397 amp.{}".format(st.state_readout_amplitude_397)

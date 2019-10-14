@@ -37,15 +37,6 @@ class RabiExcitation(pulse_sequence):
         
         self.end = self.start + frequency_advance_duration + duration_729
                     
-        # adding the bichro beam 
-        #if p.bichro:
-        #    pl = self.parameters.LocalStarkShift
-        #    f = WithUnit(80. - 0.2, 'MHz') + pl.detuning
-        #    # only one of these double passes should be on so it shouldn't hurt to do both TTLs
-        #    self.addTTL('bichromatic_1', self.start, + duration_729 + frequency_advance_duration)
-        #    self.addTTL('bichromatic_2', self.start, + duration_729 + frequency_advance_duration)
-           # self.addDDS('SP_local', self.start + frequency_advance_duration, duration_729, f, pl.amplitude)
-        #    self.end = self.end + WithUnit(2.0, 'us') # small buffer to turn off the TTL
 
             
             

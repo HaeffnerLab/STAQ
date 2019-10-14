@@ -1,6 +1,6 @@
 from PyQt4 import QtGui, uic
 import os
-from common.clients.connection import connection
+# from common.clients.connection import connection
 from twisted.internet.defer import inlineCallbacks
 import threading
 import subprocess
@@ -50,10 +50,10 @@ class actions_widget(QtGui.QFrame, widget_ui):
     
     @inlineCallbacks
     def ion_loader(self):
-        script = "/home/lattice/LabRAD/lattice/clients/automation_functions/load_single_ion.py"
+        script = "/home/staw/LabRAD/staq/clients/automation_functions/load_single_ion.py"
 
         def run_loading():
-            self.p = subprocess.Popen(["python", "/home/lattice/LabRAD/lattice/clients/automation_functions/load_single_ion.py"])
+            self.p = subprocess.Popen(["python", "/home/staq/LabRAD/staq/clients/automation_functions/load_single_ion.py"])
             self.isloading = True
             self.p.wait()
             self.isloading = False
@@ -64,7 +64,7 @@ class actions_widget(QtGui.QFrame, widget_ui):
             self.p.kill()
             del self.p
             self.Load_ion.setText("Load_ion")
-            os.system("python /home/lattice/LabRAD/lattice/clients/automation_functions/load_single_ion.py 1")       
+            os.system("python /home/staq/LabRAD/staq/clients/automation_functions/load_single_ion.py 1")       
             #cxn.pulser.switch_manual('bluePI', False)
             print "Terminating load_single_ion.py"
         
@@ -86,9 +86,9 @@ class actions_widget(QtGui.QFrame, widget_ui):
     def on_to_state(self):
         pv = yield self.cxn.get_server('scriptscanner')
         pulser = yield self.cxn.get_server('Pulser')
-        ampl397 = yield pulser.amplitude('global397')
+        ampl397 = yield pulser.amplitude('397dp')
         # ampl866 = yield pulser.amplitude('866DP')
-        freq397 = yield pulser.frequency('global397')
+        freq397 = yield pulser.frequency('397dp')
         # freq866 = yield pulser.frequency('866DP')
         yield pv.set_parameter('StateReadout','state_readout_amplitude_397', ampl397,context = self.context)
         # yield pv.set_parameter('StateReadout','state_readout_amplitude_866',ampl866,context = self.context)
@@ -99,9 +99,9 @@ class actions_widget(QtGui.QFrame, widget_ui):
     def on_to_dc(self):
         pv = yield self.cxn.get_server('scriptscanner')
         pulser = yield self.cxn.get_server('Pulser')
-        ampl397 = yield pulser.amplitude('global397')
+        ampl397 = yield pulser.amplitude('397dp')
         # ampl866 = yield pulser.amplitude('866DP')
-        freq397 = yield pulser.frequency('global397')
+        freq397 = yield pulser.frequency('397dp')
         # freq866 = yield pulser.frequency('866DP')
         yield pv.set_parameter('DopplerCooling','doppler_cooling_amplitude_397',ampl397,context = self.context)
         # yield pv.set_parameter('DopplerCooling','doppler_cooling_amplitude_866',ampl866,context = self.context)
@@ -118,8 +118,8 @@ class actions_widget(QtGui.QFrame, widget_ui):
         # freq866 = yield pv.get_parameter(('DopplerCooling','doppler_cooling_frequency_866'))
         # yield pulser.frequency('866DP', freq866)
         # yield pulser.amplitude('866DP', ampl866)
-        yield pulser.frequency('global397', freq397)
-        yield pulser.amplitude('global397', ampl397)
+        yield pulser.frequency('397dp', freq397)
+        yield pulser.amplitude('397dp', ampl397)
     
     @inlineCallbacks
     def on_from_state(self):
@@ -131,8 +131,9 @@ class actions_widget(QtGui.QFrame, widget_ui):
         freq866 = yield pv.get_parameter(('StateReadout','state_readout_frequency_866'))
         # yield pulser.frequency('866DP', freq866)
         # yield pulser.amplitude('866DP', ampl866)
-        yield pulser.frequency('global397', freq397)
-        yield pulser.amplitude('global397', ampl397)
+        yield pulser.frequency('397dp', freq397)
+        yield pulser.amplitude('397dp', ampl397)
+        
     
     @inlineCallbacks
     def disable(self):
@@ -147,6 +148,7 @@ if __name__=="__main__":
     from common.clients import qt4reactor
     qt4reactor.install()
     from twisted.internet import reactor
+    from common.clients.connection import connection
     electrodes = actions_widget(reactor)
     electrodes.show()
     reactor.run()

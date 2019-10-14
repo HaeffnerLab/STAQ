@@ -7,7 +7,11 @@ carr_1_global = U(0,'kHz')
 
 class CalibLine1(pulse_sequence):
     
-    scannable_params = {'Spectrum.carrier_detuning' : [(-5, 5, .75, 'kHz'), 'car1']}
+    
+    scannable_params = {
+        #'Spectrum.carrier_detuning':  [(-50, 50, 100, 'kHz'), 'window']
+        'Spectrum.carrier_detuning' : [(-5, 5, 0.75, 'kHz'),'car1',True]
+              }
     # fixed parmas doesn't work -> you can declare fixed params for all the seq at the main class
 
     def sequence(self):
@@ -42,16 +46,15 @@ class CalibLine1(pulse_sequence):
         
     @classmethod
     def run_initial(cls,cxn, parameters_dict):
-#        print "Switching the 866DP to auto mode"
-        cxn.pulser.switch_auto('866DP')
+        pass
+
         
     @classmethod
     def run_finally(cls, cxn, parameters_dict, all_data, freq_data):
         
 
         
-#        print "switching the 866 back to ON"
-        cxn.pulser.switch_manual('866DP', True)
+        
 #        print " running finally the CalibLine1 !!!!"
         
 #        print " sequence ident" , int(cxn.scriptscanner.get_running()[0][0])  
@@ -73,9 +76,9 @@ class CalibLine1(pulse_sequence):
         
         if not peak_fit:
             carr_1_global = None
-            print "4321"
+            # print "4321"
             ident = int(cxn.scriptscanner.get_running()[0][0])
-            print "stoping the sequence ident" , ident                     
+            # print "stoping the sequence ident" , ident                     
             cxn.scriptscanner.stop_sequence(ident)
             return
         
@@ -83,8 +86,11 @@ class CalibLine1(pulse_sequence):
         carr_1_global = peak_fit 
 
 class CalibLine2(pulse_sequence):
-
-    scannable_params = {'Spectrum.carrier_detuning' : [(-5, 5, .75, 'kHz'), 'car2']}
+    scannable_params = {
+        #'Spectrum.carrier_detuning':  [(-50, 50, 100, 'kHz'), 'window']
+        'Spectrum.carrier_detuning' : [(-5, 5, 0.75, 'kHz'),'car2',True]
+              }
+    
     # fixed parmas doesn't work -> you can declare fixed params for all the seq at the main class
 
     def sequence(self):
@@ -116,14 +122,13 @@ class CalibLine2(pulse_sequence):
         
     @classmethod
     def run_initial(cls,cxn, parameters_dict):
-#        print "Switching the 866DP to auto mode"
-        cxn.pulser.switch_auto('866DP')
+        pass
+
         
     @classmethod
     def run_finally(cls, cxn, parameters_dict, all_data, freq_data):
         
-#        print "switching the 866 back to ON"
-        cxn.pulser.switch_manual('866DP', True)
+
         
 #        print " running finally the CalibLine2"
 
