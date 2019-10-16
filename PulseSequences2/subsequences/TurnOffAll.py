@@ -8,7 +8,4 @@ class TurnOffAll(pulse_sequence):
         for channel in ['729dp','397dp','854dp','866dp']:
             self.addDDS(channel, self.start, dur, WithUnit(0, 'MHz'), WithUnit(-63., 'dBm') )
         
-        # changing the 866 from a dds to a rf source enabled by a switch
-        #self.addTTL('866DP', self.start, repump_dur_866 )
-        
         self.end = self.start + dur

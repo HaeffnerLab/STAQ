@@ -18,24 +18,23 @@ class RabiExcitation(pulse_sequence):
         
         ampl_off = WithUnit(-63.0, 'dBm')
         frequency_advance_duration = WithUnit(6, 'us')
+
+        e = self.parameters.Excitation_729
         
-        freq_729 = self.parameters.Excitation_729.rabi_excitation_frequency
-        duration_729 = self.parameters.Excitation_729.rabi_excitation_duration
-        phase_729 = self.parameters.Excitation_729.rabi_excitation_phase
-        amp_729 = self.parameters.Excitation_729.rabi_excitation_amplitude
-        channel_729 = self.parameters.Excitation_729.channel_729
-        
-        #print "Rabi Excitation sub sequence"
-        #print "729 freq: {}".format(freq_729.inUnitsOf('MHz'))
-        #print "729 amp is {}".format(amp_729)
-        #print "729 duration is {}".format(duration_729)
+        freq_729 = e.rabi_excitation_frequency
+        duration_729 = e.rabi_excitation_duration
+        phase_729 = e.rabi_excitation_phase
+        amp_729 = e.rabi_excitation_amplitude
+        channel_729 = e.channel_729
+        changeDDS = e.changeDDS
          
-        #first advance the frequency but keep amplitude low        
-        self.addDDS(channel_729, self.start, frequency_advance_duration, freq_729, ampl_off)
+        start = self.start 
+        #first advance the frequency but keep amplitude low 
+        if changeDDS:       
+            self.addDDS(channel_729, self.start, frequency_advance_duration, freq_729, ampl_off)
+            start = self.start+frequency_advance_duration
         self.addDDS(channel_729, self.start + frequency_advance_duration, duration_729, freq_729, amp_729, phase_729)
-        
-        
-        self.end = self.start + frequency_advance_duration + duration_729
+        self.end = start + frequency_advance_duration + duration_729
                     
 
             

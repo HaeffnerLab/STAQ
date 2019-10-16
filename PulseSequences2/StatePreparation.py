@@ -36,7 +36,7 @@ class StatePreparation(pulse_sequence):
             self.addSequence(OpticalPumping)
             
         
-        # precolling side band cooling             
+        # precooling side band cooling             
         if self.parameters.StatePreparation.precooling_sideband_enable:       
 
             duration_op= self.parameters.SidebandCooling.sideband_cooling_optical_pumping_duration

@@ -22,13 +22,9 @@ class RabiFlopping(pulse_sequence):
               }
 
     show_params= ['Excitation_729.channel_729',
-                  # 'Excitation_729.bichro',
                   'RabiFlopping.line_selection',
                   'RabiFlopping.rabi_amplitude_729',
                   'RabiFlopping.duration',
-                  # 'RabiFlopping.rabi_amplitude_729',
-                  'RabiFlopping.duration',
-                  # 'RabiFlopping.line_selection',
                   'RabiFlopping.selection_sideband',
                   'RabiFlopping.order',
                   'StatePreparation.channel_729',

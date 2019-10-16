@@ -64,13 +64,13 @@ class STAQ_GUI(QtGui.QMainWindow):
     
  
     def make_drift_tracker_widget(self, reactor, cxn):
-        from common.clients.drift_tracker.drift_tracker import drift_tracker
-        # from common.clients.drift_tracker_global.drift_tracker import drift_tracker_global as drift_tracker
+        # from common.clients.drift_tracker.drift_tracker import drift_tracker
+        from common.clients.drift_tracker_global.drift_tracker_global import drift_tracker_global as drift_tracker
         widget = drift_tracker(reactor, cxn = cxn, clipboard = self.clipboard)
         return widget
     
     def make_dac_control_widget(self,reactor,cxn):
-        from common.clients.NEW_DAC_CONTROL import DAC_Control
+        from STAQ_DAC_CONTROL import DAC_Control
         widget = DAC_Control(reactor)
         return widget   
 
