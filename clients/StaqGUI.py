@@ -103,8 +103,8 @@ class STAQ_GUI(QtGui.QMainWindow):
         from common.clients.LINETRIGGER_CONTROL import linetriggerWidget
         from quick_actions.quick_actions import actions_widget
         from indicator.indicator import indicator_widget
-        from agilent_E3633A.agilent_E3633A import magnet_Control, oven_Control
-        from common.clients.InjectionLock_GUI_new import InjectionLock_Control
+        # from agilent_E3633A.agilent_E3633A import magnet_Control, oven_Control
+        #from common.clients.InjectionLock_GUI_new import InjectionLock_Control
         
         
         gridLayout = QtGui.QGridLayout()
@@ -117,7 +117,7 @@ class STAQ_GUI(QtGui.QMainWindow):
         #gridLayout.addWidget(magnet_Control(reactor, cxn),      2,0,1,1)
         #gridLayout.addWidget(oven_Control(reactor, cxn),        2,1,1,1)
         
-        gridLayout.addWidget(InjectionLock_Control(reactor),        2,1,1,1)
+        #gridLayout.addWidget(InjectionLock_Control(reactor),        2,1,1,1)
         
         gridLayout.addWidget(laserdac_control_widget(reactor),             0,2,3,2)
         gridLayout.addWidget(multiplexerWidget(reactor),        0,4,3,1)

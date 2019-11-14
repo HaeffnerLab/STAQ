@@ -109,16 +109,16 @@ class StatePreparation(pulse_sequence):
                 #     self.addSequence(OpticalPumping, {'OpticalPumpingContinuous.optical_pumping_continuous_duration':duration_op })
                 
         
-        if self.parameters.StatePreparation.aux_optical_pumping_enable and not self.parameters.StatePreparation.aux_optical_pumping_pulsed_enable:
-            op_aux = self.parameters.OpticalPumpingAux
-#             print "12345 adding aux optical pumping"
-#             print  op_aux.channel_729, op_aux.aux_op_line_selection,op_aux.duration
-#             print "Aux Optical Pumping"
-            self.addSequence(OpticalPumping, {'StatePreparation.channel_729': op_aux.channel_729,
-                                              'OpticalPumping.line_selection': op_aux.aux_op_line_selection,
-                                              'OpticalPumping.optical_pumping_amplitude_729': op_aux.aux_optical_pumping_amplitude_729,
-                                              'OpticalPumpingContinuous.optical_pumping_continuous_duration':op_aux.duration,
-                                              "OpticalPumping.optical_pumping_amplitude_854": op_aux.amp_854 })
+#         if self.parameters.StatePreparation.aux_optical_pumping_enable and not self.parameters.StatePreparation.aux_optical_pumping_pulsed_enable:
+#             op_aux = self.parameters.OpticalPumpingAux
+# #             print "12345 adding aux optical pumping"
+# #             print  op_aux.channel_729, op_aux.aux_op_line_selection,op_aux.duration
+# #             print "Aux Optical Pumping"
+#             self.addSequence(OpticalPumping, {'StatePreparation.channel_729': op_aux.channel_729,
+#                                               'OpticalPumping.line_selection': op_aux.aux_op_line_selection,
+#                                               'OpticalPumping.optical_pumping_amplitude_729': op_aux.aux_optical_pumping_amplitude_729,
+#                                               'OpticalPumpingContinuous.optical_pumping_continuous_duration':op_aux.duration,
+#                                               "OpticalPumping.optical_pumping_amplitude_854": op_aux.amp_854 })
                   
         
         # if self.parameters.StatePreparation.aux_optical_pumping_enable and self.parameters.StatePreparation.aux_optical_pumping_pulsed_enable:

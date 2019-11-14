@@ -50,10 +50,10 @@ class actions_widget(QtGui.QFrame, widget_ui):
     
     @inlineCallbacks
     def ion_loader(self):
-        script = "/home/staw/LabRAD/staq/clients/automation_functions/load_single_ion.py"
+        script = "/home/staq/Labrad/staq/clients/automation_functions/load_single_ion.py"
 
         def run_loading():
-            self.p = subprocess.Popen(["python", "/home/staq/LabRAD/staq/clients/automation_functions/load_single_ion.py"])
+            self.p = subprocess.Popen(["python", "/home/staq/Labrad/staq/clients/automation_functions/load_single_ion.py"])
             self.isloading = True
             self.p.wait()
             self.isloading = False
@@ -64,7 +64,7 @@ class actions_widget(QtGui.QFrame, widget_ui):
             self.p.kill()
             del self.p
             self.Load_ion.setText("Load_ion")
-            os.system("python /home/staq/LabRAD/staq/clients/automation_functions/load_single_ion.py 1")       
+            os.system("python /home/staq/Labrad/staq/clients/automation_functions/load_single_ion.py 1")       
             #cxn.pulser.switch_manual('bluePI', False)
             print "Terminating load_single_ion.py"
         

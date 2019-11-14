@@ -13,7 +13,7 @@ class RabiFlopping(pulse_sequence):
         'RabiFlopping.duration':  [(0., 50., 3, 'us'), 'rabi'],
         # 'OpticalPumpingContinuous.optical_pumping_continuous_duration':  [(0., 50., 3, 'ms'), 'rabi'],
         # 'OpticalPumping.optical_pumping_amplitude_729':  [(-12., -5., 0.5, 'dBm'), 'rabi'],
-        # 'OpticalPumping.optical_pumping_amplitude_854':  [(-12., -5., 0.5, 'dBm'), 'rabi'],
+        'OpticalPumping.optical_pumping_amplitude_854':  [(-12., -5., 0.5, 'dBm'), 'rabi'],
         'SidebandCooling.stark_shift':  [(-20., 20., 0.5, 'kHz'), 'rabi'],
         'SidebandCooling.sideband_cooling_amplitude_854':  [(-30., -5., 0.5, 'dBm'), 'rabi'],
         'SidebandCooling.sideband_cooling_amplitude_729':  [(-30., -5., 0.5, 'dBm'), 'rabi']
@@ -64,8 +64,8 @@ class RabiFlopping(pulse_sequence):
         
     @classmethod
     def run_initial(cls,cxn, parameters_dict):
-        print "Switching the 866DP to auto mode"
-        cxn.pulser.switch_auto('866DP')
+      pass
+
         
     @classmethod
     def run_in_loop(cls,cxn, parameters_dict, data, x):

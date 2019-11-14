@@ -19,16 +19,16 @@ cxn = labrad.connect()
 #b.laserdac.setvoltage('397', 326)
 
 if len(sys.argv) > 1:
-    cxn.pulser.switch_manual('bluePI', False)
+    cxn.pulser.switch_manual('PI', False)
     sys.exit(0)
 
 print "\n\n"
 
 # switch on blue PI
-cxn.pulser.switch_manual('bluePI', True)
+cxn.pulser.switch_manual('PI', True)
 time.sleep(1.0)
 
-threshold = 5.0
+threshold = 13.0
 
 counts = 0.0
 
@@ -58,7 +58,7 @@ while counts < threshold:
 
         # switch off blue PI, if above threshold
     if counts > threshold:
-        cxn.pulser.switch_manual('bluePI', False)
+        cxn.pulser.switch_manual('PI', False)
         print "Loaded an ion ..."
 
         time.sleep(0.5)

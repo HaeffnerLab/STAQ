@@ -28,7 +28,7 @@ class MULTIPOLE_CONTROL(QtGui.QWidget):
     @inlineCallbacks    
     def makeGUI(self):
         self.multipoles = yield self.dacserver.get_multipole_names()
-        self.controls = {k: QCustomSpinBox(k, (-20.,20.),decimals=5,step_size=0.00001) for k in self.multipoles}
+        self.controls = {k: QCustomSpinBox(k, (-100.,100.),decimals=5,step_size=0.01) for k in self.multipoles}
 #        for i,el in self.controls:
 #            el.spinLevel.setDecimals(4)
         self.multipoleValues = {k: 0.0 for k in self.multipoles}
