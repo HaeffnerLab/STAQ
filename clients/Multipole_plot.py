@@ -22,27 +22,33 @@ class Multipole_plot(QtGui.QWidget):
         #setup the layout and make all the widgets
         self.setWindowTitle('Multipole calculation')
         #create a horizontal layout
-        layout = QtGui.QHBoxLayout()
-        
+        hbox = QtGui.QHBoxLayout()
+        vbox = QtGui.QVBoxLayout()
         
         #buttons for submitting
         self.submit = QtGui.QPushButton('Calc ')
+
+
         self.textedit = QtGui.QTextEdit()
         self.textedit.setReadOnly(True)
         #add all the button to the layout
+        self.lbl = QtGui.QLabel()
+        self.lbl.setText(" RF voltage (amp)")
         self.lineedit = QtGui.QLineEdit()
         self.lineedit.setText('100')
 
-        layout.addWidget(self.submit)
-        layout.addWidget(self.lineedit)
-        layout.addWidget(self.textedit)
+        vbox.addWidget(self.submit)
+        vbox.addWidget(self.lbl)
+        vbox.addWidget(self.lineedit)
+        hbox.addLayout(vbox)
+        hbox.addWidget(self.textedit)
         
 
         #Canvas and Toolbar
         self.figure = plt.figure(figsize=(7.5,5))    
         self.canvas = FigureCanvas(self.figure)     
-        layout.addWidget(self.canvas)
-        self.setLayout(layout)
+        hbox.addWidget(self.canvas)
+        self.setLayout(hbox)
         
     @inlineCallbacks
     def connect(self):
