@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import pickle
+from numpy import linalg as LA
 
 
 class Multipole_plot(QtGui.QWidget):
@@ -19,17 +20,21 @@ class Multipole_plot(QtGui.QWidget):
     
     def setupLayout(self):
         #setup the layout and make all the widgets
-        self.setWindowTitle('Connected Layout Widget')
+        self.setWindowTitle('Multipole calculation')
         #create a horizontal layout
         layout = QtGui.QHBoxLayout()
+        
         
         #buttons for submitting
         self.submit = QtGui.QPushButton('Calc ')
         self.textedit = QtGui.QTextEdit()
         self.textedit.setReadOnly(True)
         #add all the button to the layout
-        
+        self.lineedit = QtGui.QLineEdit()
+        self.lineedit.setText('100')
+
         layout.addWidget(self.submit)
+        layout.addWidget(self.lineedit)
         layout.addWidget(self.textedit)
         
 
@@ -49,6 +54,7 @@ class Multipole_plot(QtGui.QWidget):
         self.dac = cxn.dac_server
         self.registry = cxn.registry
         self.submit.pressed.connect(self.on_submit)
+        
     
     @inlineCallbacks
     def on_submit(self):
@@ -66,22 +72,55 @@ class Multipole_plot(QtGui.QWidget):
         # ploting on the canvas
         plt.cla()
 
-        Multipule_name = ['c', 
+        self.multipule_names = ['c', 
                   'Ez', '-Ex', '-Ey', 
                   r'$U2 = z^2-(x^2+y^2)/2$', 'U5 = -6zx', 'U4 = -6yz', r'$U1 = 6(x^2-y^2)$', 'U3= 12xy' ]
-        coeffs_solution1 =  np.dot(self.multipole_expansions,Vcalc)
-        y_pos =range(len(coeffs_solution1))
+        self.mulipole_projection =  np.dot(self.multipole_expansions,Vcalc)
+        y_pos =range(len(self.mulipole_projection ))
         ax = self.figure.add_subplot(111)
-        plt.bar(y_pos,coeffs_solution1)
+        plt.bar(y_pos,self.mulipole_projection)
         plt.grid(which ='both')
     #     plt.ylim(-1,1)
-        plt.xticks(y_pos, Multipule_name)
+        plt.xticks(y_pos, self.multipule_names)
+        plt.title('dc decomposition')
         ax.tick_params(axis="x", labelsize=8, labelrotation=-45)
                       
     
         self.canvas.draw()
+        self.calc_eigen_freq()
+
+  
 
         
+    def calc_eigen_freq(self):
+        pi2= 2.0*np.pi
+        q = 1.6021764e-19
+        M = 1.67262158e-27 * 40
+        Vrf = float(self.lineedit.text() )
+        Omega_rf = pi2*45e6 #in Hz
+        R=  140e-6
+        # psuedo potential voltage
+        uRF=q*Vrf**2/(M*Omega_rf**2*R**4)
+
+        # adding a factor 10**6 to convert to v/m^2 units
+        u2,u5,u4,u1,u3 = self.mulipole_projection[-5:]*10**6
+
+        print u2,u5,u4,u1,u3
+        uMat=0.5*np.array([
+        [ 2*(6*u1-u2)+uRF,   12*u3,         -6*u5],
+        [       12*u3,   -2*(6*u1+u2)+uRF,  -6*u4],
+        [       -6*u5,       -6*u4,         4*u2]
+        ])
+        eigs,vectors = LA.eig(uMat)
+        for eig, v  in zip(eigs,vectors):
+            trap_f = np.sqrt(q/M*eig)/pi2*10**-6
+            self.textedit.append(' ')
+            self.textedit.append(' Frequency  {:3.3f} MHz'.format(trap_f))
+            self.textedit.append(' ({:1.3f},{:1.3f},{:1.3f}) '.format(v[0],v[1],v[2]))
+            self.textedit.append(' ')
+            # print trap_f
+
+
     def closeEvent(self, x):
         #stop the reactor when closing the widget
         self.reactor.stop()
