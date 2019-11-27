@@ -491,21 +491,32 @@ class CHANNEL_MONITOR(QtGui.QWidget):
 
 class DAC_Control(QtGui.QMainWindow):
     def __init__(self, reactor, parent=None):
+        
+        
+
         super(DAC_Control, self).__init__(parent)
         self.reactor = reactor   
 
         channelControlTab = self.buildChannelControlTab()        
         multipoleControlTab = self.buildMultipoleControlTab()
+        Multipole_plotTab = self.buildMultipole_plotTab(self.reactor)
         #multipoleScanTab = self.buildMultipoleScanTab()
         # scanTab = self.buildScanTab()
         tab = QtGui.QTabWidget()
         tab.addTab(multipoleControlTab,'&Multipoles')
         tab.addTab(channelControlTab, '&Channels')
+        tab.addTab(Multipole_plotTab, '&Multipoles plotter')
         #tab.addTab(multipoleScanTab, '&Multipole Scan')
         # tab.addTab(scanTab, '&Scans')
         self.setWindowTitle('DAC Control')
         self.setCentralWidget(tab)
     
+    def buildMultipole_plotTab(self , reactor):
+        from Multipole_plot import Multipole_plot 
+        widget =Multipole_plot(reactor)
+        return widget
+
+
     def buildMultipoleControlTab(self):
         widget = QtGui.QWidget()
         gridLayout = QtGui.QGridLayout()
