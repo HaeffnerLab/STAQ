@@ -6,10 +6,10 @@ from Spectrum import Spectrum
 
 class rsb(Spectrum):
 
-	scannable_params = {'Spectrum.sideband_detuning' :[(-10, 10, 1, 'kHz'),'hr_rsb',True]}
-
 	@classmethod
 	def run_finally(cls, cxn, parameter_dict, data, data_x):
+		print "switching the 866 back to ON"
+		cxn.pulser.switch_manual('866DP', True)
 		data = data.sum(1)
 		# peak_guess =  cls.peak_guess(data_x, data)[0]
 		# print "@@@@@@@@@@@@@@", peak_guess
@@ -23,10 +23,10 @@ class rsb(Spectrum):
 
 class bsb(Spectrum):
 
-	scannable_params = {'Spectrum.sideband_detuning' :[(-10, 10, 1, 'kHz'),'hr_bsb',True]}
-
 	@classmethod
 	def run_finally(cls, cxn, parameter_dict, data, data_x):
+		print "switching the 866 back to ON"
+		cxn.pulser.switch_manual('866DP', True)
 		data = data.sum(1)
 		# peak_guess =  cls.peak_guess(data_x, data)[0]
 		# print "@@@@@@@@@@@@@@", peak_guess
@@ -38,7 +38,7 @@ class bsb(Spectrum):
 		print "Amplitude: ", fit_params[1]
 		return fit_params[1]
 
-class Temperature(pulse_sequence):
+class nbar(pulse_sequence):
 
 	sequence = [(rsb, {'Spectrum.order':-1.0}), (bsb, {'Spectrum.order': 1.0})]
 
@@ -46,13 +46,12 @@ class Temperature(pulse_sequence):
 	def run_finally(cls, cxn, parameter_dict, amp, seq_name):
 		try:
 			R = 1.0 * amp[0] / amp[1]
-			print 'nbar:  ',1.0*R/(1.0-1.0*R)
 			return 1.0*R/(1.0-1.0*R)
 		except:
 			pass
 
 class Heating_Rate(pulse_sequence):
 
-	scannable_params = {'Heating.background_heating_time': [(0., 5000., 500., 'us'), 'nbar']}
+	scannable_params = {'Heating.background_heating_time': [(0., 5000., 500., 'us'), 'HeatingRate']}
 
-	sequence = Temperature
+	sequence = nbar

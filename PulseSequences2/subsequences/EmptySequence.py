@@ -7,4 +7,5 @@ class EmptySequence(pulse_sequence):
         
         duration=self.parameters.EmptySequence.empty_sequence_duration
         
+        
         self.end = self.start + duration

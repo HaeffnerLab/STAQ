@@ -17,7 +17,7 @@ class MotionalAnalysis(pulse_sequence):
         freq_397 = self.parameters.DopplerCooling.doppler_cooling_frequency_397  
         freq_866 = self.parameters.DopplerCooling.doppler_cooling_frequency_866  
         
-        self.addTTL('397Mod', self.start, ma.pulse_width_397 + WithUnit(2, 'us')) # 2 us for safe TTL switch on        
+        self.addTTL('397Mod', self.start, ma.pulse_width_397 + WithUnit(1, 'us')) # 2 us for safe TTL switch on        
         self.addDDS('397dp', self.start + WithUnit(1, 'us'), ma.pulse_width_397, freq_397, ma.amplitude_397)
         self.addDDS('866dp', self.start + WithUnit(1, 'us'), ma.pulse_width_397+ WithUnit(2.0, 'us'), freq_866, ma.amplitude_866)
         # self.addTTL('866dp', self.start + WithUnit(0.2, 'us'), ma.pulse_width_397+ WithUnit(0.1, 'us') )
