@@ -50,10 +50,6 @@ class STAQ_GUI(QtGui.QMainWindow):
         
         self.tabWidget.addTab(histogram, '&Readout Histogram')
         self.tabWidget.addTab(drift_tracker, '&Drift Tracker')
-        
-        # self.tabWidget.addTab(piezo_motor_control, 'M&irror Porsche')
-        # #self.tabWidget.addTab(drift_tracker, '&Autogadget')
-        # self.tabWidget.addTab(config_editor, 'Config &Editor')
 
         layout.addWidget(self.tabWidget)
         centralWidget.setLayout(layout)
