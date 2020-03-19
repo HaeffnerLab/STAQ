@@ -7,36 +7,46 @@ import time
 
 
 class test(QtGui.QWidget):
-    def __init__(self, reactor, cxn = None, parent=None):
+    def __init__(self,  cxn = None, parent=None):
         QtGui.QWidget.__init__(self, parent)
         # Initialize
-        self.reactor = reactor
+        # self.reactor = reactor
         self.cxn = cxn
         self.power = 0
+        from common.clients.connection import connection
+
+        self.cxn = connection()
+        # connection()
         self.connect_labrad()
-        print " done"
-        self.getParams()
-        print self.power
+        
+        # print " measuring power"
+        # # self.getpoweretParams()
+        # print self.powerHead.getpower()
     
    
      
     @inlineCallbacks
     # Attempt to connect ot the pulser server 
     def connect_labrad(self):
-        if self.cxn is None:
-            print "connecting"
-            from common.clients import connection
-            self.cxn = connection.connection()
-            yield self.cxn.connect()
+        self.cxn = yield self.cxn.connect()           
         print "connection established"
         self.context = yield self.cxn.context()
+        print self.context
+        
+        returnValue( self )
+
+    @inlineCallbacks
+    # Attempt to connect ot the pulser server 
+    def Get_server(self):
         self.powerHead = yield self.cxn.get_server('parametervault')
+        returnValue( self )
+
         
     @inlineCallbacks
     # Attempt to connect ot the pulser server 
     def getParams(self):
         print "inside function"
-        self.power =yield self.parametervault.get_all_parameters()
+        self.power = yield self.powerHead.get_collections () #getpower()
 
         returnValue( self.power  )
             
